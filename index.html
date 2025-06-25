@@ -3,150 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Herramienta de Estudio</title>
+    <title>Cuestionario inc.</title>
     <style>
-        /* Estilos Generales */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f4f7f9;
-            color: #333;
-            line-height: 1.6;
-            padding: 20px;
-            box-sizing: border-box;
+        /* --- Even Blacker Night Mode Theme --- */
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            background-color: #000000; /* Pure black background */
+            color: #e9ecef; 
+            line-height: 1.6; 
+            padding: 20px; 
+            box-sizing: border-box; 
         }
-
-        /* Contenedor Principal */
-        #quiz-container {
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            width: 100%;
-            max-width: 800px;
-            margin: 20px auto;
-            text-align: center;
+        #quiz-container, #wrong-answers-container { 
+            background-color: #1c1c1c; /* Very dark gray container */
+            border-radius: 10px; 
+            box-shadow: none; /* Removed shadow for a flatter, modern look on black */
+            padding: 30px; 
+            width: 100%; 
+            max-width: 800px; 
+            margin: 20px auto; 
+            text-align: center; 
+            border: 1px solid #333; /* Darker, more subtle border */
         }
-
-        h1, h2 {
-            color: #2c3e50;
+        h1, h2 { 
+            color: #ffffff; 
         }
-
-        #progress-counter {
-            color: #7f8c8d;
-            font-weight: 500;
-            margin-bottom: 20px;
+        #progress-counter { 
+            color: #bdc3c7; 
+            font-weight: 500; 
+            margin-bottom: 20px; 
         }
-
-        /* Contenedores de Pregunta y Respuesta */
-        #question-display, #answer-display {
-            background-color: #ecf0f1;
-            border-left: 5px solid #3498db;
-            padding: 20px;
-            margin-top: 20px;
-            min-height: 50px;
-            border-radius: 5px;
-            text-align: left;
-            font-size: 1.1em;
+        #question-display, #answer-display { 
+            background-color: #2b2b2b; /* Dark charcoal for question/answer */
+            border-left: 5px solid #3498db; 
+            padding: 20px; 
+            margin-top: 20px; 
+            min-height: 50px; 
+            border-radius: 5px; 
+            text-align: left; 
+            font-size: 1.1em; 
         }
-
-        #answer-display {
-            border-left-color: #2ecc71;
+        #answer-display { 
+            border-left-color: #2ecc71; 
         }
-        
-        #completion-message {
-            background-color: #e8f6f3;
-            color: #1abc9c;
-            border: 1px solid #1abc9c;
-            padding: 20px;
-            border-radius: 5px;
-        }
-
-        /* Clase para ocultar elementos */
-        .hidden {
-            display: none;
-        }
-
-        /* Estilo de los Botones */
-        .button-container {
-            margin-top: 25px;
-            display: flex;
-            justify-content: center;
-            gap: 15px; /* Espacio entre botones */
-            flex-wrap: wrap;
-        }
-
-        button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 5px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        #completion-message { 
+            background-color: rgba(46, 204, 113, 0.15); 
+            color: #2ecc71; 
+            border: 1px solid #2ecc71; 
+            padding: 20px; 
+            border-radius: 5px; 
         }
         
+        .button-container { margin-top: 25px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+        .hidden { display: none; }
+
+        button { background-color: #3498db; color: white; border: none; padding: 12px 25px; border-radius: 5px; font-size: 1em; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        button:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
         button#show-answer-btn { background-color: #f1c40f; }
         button#show-answer-btn:hover { background-color: #f39c12; }
-        
         button.correct-btn { background-color: #2ecc71; }
         button.correct-btn:hover { background-color: #27ae60; }
-        
         button.incorrect-btn { background-color: #e74c3c; }
         button.incorrect-btn:hover { background-color: #c0392b; }
-        
         button#restart-btn { background-color: #95a5a6; }
         button#restart-btn:hover { background-color: #7f8c8d; }
+        
+        #wrong-answers-list { list-style-type: none; padding: 0; text-align: left; }
+        #wrong-answers-list li { margin-bottom: 15px; }
 
-        /* Contenedor de Preguntas Malas */
-        #wrong-answers-container {
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            width: 100%;
-            max-width: 800px;
-            margin: 20px auto;
+        details { 
+            border: 1px solid #333; 
+            border-radius: 5px; 
+            padding: 10px; 
+            background-color: #2b2b2b; 
         }
-        
-        #wrong-answers-list {
-            list-style-type: none;
-            padding: 0;
-            text-align: left;
-        }
-        
-        #wrong-answers-list li {
-            margin-bottom: 15px;
-        }
-        
-        details {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 10px;
-            background-color: #fafafa;
-        }
-        
-        summary {
-            font-weight: bold;
-            cursor: pointer;
-            outline: none;
-        }
-        
-        details[open] summary {
-            margin-bottom: 10px;
-        }
+        summary { font-weight: bold; cursor: pointer; outline: none; }
+        details[open] summary { margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
     <div id="quiz-container">
-        <h1>Herramienta de Estudio</h1>
+        <h1>Vagabunderia INC.</h1>
         <div id="progress-counter" class="hidden"></div>
         
         <div id="question-display" class="hidden"></div>
@@ -161,20 +99,20 @@
             <button id="new-question-btn" class="hidden">Siguiente Pregunta</button>
             <button id="show-answer-btn" class="hidden">Respuesta</button>
             <div id="feedback-container" class="button-container hidden">
-                <button onclick="marcarRespuesta(true)" class="correct-btn">La tuve Buena</button>
-                <button onclick="marcarRespuesta(false)" class="incorrect-btn">La tuve Mala</button>
+                <button onclick="marcarRespuesta(true)" class="correct-btn">Buena</button>
+                <button onclick="marcarRespuesta(false)" class="incorrect-btn">Mala</button>
             </div>
             <button id="restart-btn" class="hidden">Reiniciar Cuestionario</button>
         </div>
     </div>
     
     <div id="wrong-answers-container" class="hidden">
-        <h2>Preguntas para Repasar</h2>
+        <h2>Preguntas erroneas</h2>
         <ul id="wrong-answers-list"></ul>
     </div>
-    
+
     <script>
-        const cuestionario = [
+        const cuestionarioMaestro = [
             {
                 pregunta: "<b>1. Explique por qué los medios simbólicamente generalizados de comunicación pueden ser considerados un buen ejemplo de equivalentes funcionales.</b>",
                 respuesta: "El concepto de <b>equivalentes funcionales</b>, introducido por Robert K. Merton, postula que un mismo problema social puede ser resuelto de distintas maneras por diferentes mecanismos. Los <b>medios simbólicamente generalizados de comunicación (MSGC)</b> son un ejemplo paradigmático porque todos cumplen una misma función central, pero cada uno lo hace con una lógica distinta.<br><br>La función común que resuelven es la <b>improbabilidad de la validez</b> en la comunicación: lograr que el receptor acepte la comunicación. Los MSGC 'motivan la aceptación del otro con una mínima cantidad de comunicación', facilitando la coordinación.<br><br>La equivalencia funcional se manifiesta en que cada medio logra esto por vías diferentes:<br><ul><li><b>Dinero:</b> Motiva la aceptación a través del 'beneficio paralelo'. El receptor acepta por obtener un recurso monetario.</li><li><b>Poder:</b> Motiva la aceptación mediante la 'capacidad de sanción'. El receptor acepta para evitar una consecuencia negativa.</li><li><b>Amor/Confianza:</b> Motiva la aceptación de manera simbólica, fundada en un vínculo personal preexistente.</li><li><b>Verdad:</b> Motiva la aceptación a través de la evidencia y la percepción ('ver para creer').</li></ul>Por lo tanto, aunque sus mecanismos son heterogéneos, todos convergen en resolver el mismo problema fundamental de asegurar la aceptación para la coordinación social."
@@ -458,70 +396,70 @@
         ];
 
 
-let preguntasDisponibles = [];
-        let preguntasMalas = [];
-        let preguntaActual = null;
-        let contadorPreguntas = 0;
-        const totalPreguntas = cuestionarioMaestro.length;
-
         // --- Referencias a elementos del DOM ---
         const startBtn = document.getElementById('start-btn');
         const newQuestionBtn = document.getElementById('new-question-btn');
         const showAnswerBtn = document.getElementById('show-answer-btn');
         const restartBtn = document.getElementById('restart-btn');
-        
+        const feedbackContainer = document.getElementById('feedback-container');
         const questionDisplay = document.getElementById('question-display');
         const answerDisplay = document.getElementById('answer-display');
-        const feedbackContainer = document.getElementById('feedback-container');
         const wrongAnswersContainer = document.getElementById('wrong-answers-container');
         const wrongAnswersList = document.getElementById('wrong-answers-list');
         const progressCounter = document.getElementById('progress-counter');
         const completionMessage = document.getElementById('completion-message');
 
-        // --- Lógica de la aplicación ---
-        
+        // --- Variables de estado de la aplicación ---
+        let preguntasDisponibles = [];
+        let preguntasMalas = [];
+        let preguntaActual = null;
+        let contadorPreguntas = 0;
+        const totalPreguntas = cuestionarioMaestro.length;
+
+        // --- LÓGICA DE LA APLICACIÓN ---
+
+        // ¡NUEVA FUNCIÓN! Se asegura del estado inicial correcto al cargar la página.
+        document.addEventListener('DOMContentLoaded', function() {
+            startBtn.classList.remove('hidden');
+            newQuestionBtn.classList.add('hidden');
+            showAnswerBtn.classList.add('hidden');
+            feedbackContainer.classList.add('hidden');
+            restartBtn.classList.add('hidden');
+        });
+
         function iniciarCuestionario() {
-            // Copia el cuestionario maestro para tener una lista fresca de preguntas
             preguntasDisponibles = [...cuestionarioMaestro];
             preguntasMalas = [];
             contadorPreguntas = 0;
             
-            // Actualiza la UI para el inicio
             startBtn.classList.add('hidden');
             restartBtn.classList.add('hidden');
             completionMessage.classList.add('hidden');
             wrongAnswersContainer.classList.add('hidden');
             wrongAnswersList.innerHTML = '';
-            
             progressCounter.classList.remove('hidden');
             
             obtenerNuevaPregunta();
         }
 
         function obtenerNuevaPregunta() {
-            // Ocultar displays y botones de feedback
             questionDisplay.classList.add('hidden');
             answerDisplay.classList.add('hidden');
             feedbackContainer.classList.add('hidden');
             newQuestionBtn.classList.add('hidden');
 
             if (preguntasDisponibles.length === 0) {
-                // Si no quedan preguntas, termina el cuestionario
                 finalizarCuestionario();
                 return;
             }
 
-            // Seleccionar una pregunta al azar de las disponibles
             const randomIndex = Math.floor(Math.random() * preguntasDisponibles.length);
             preguntaActual = preguntasDisponibles[randomIndex];
-
-            // Quitar la pregunta seleccionada del pool para que no se repita
             preguntasDisponibles.splice(randomIndex, 1);
             
             contadorPreguntas++;
             actualizarContador();
 
-            // Mostrar la nueva pregunta y el botón de respuesta
             questionDisplay.innerHTML = preguntaActual.pregunta;
             questionDisplay.classList.remove('hidden');
             showAnswerBtn.classList.remove('hidden');
@@ -531,37 +469,37 @@ let preguntasDisponibles = [];
             answerDisplay.innerHTML = preguntaActual.respuesta;
             answerDisplay.classList.remove('hidden');
             
-            // Ocultar botón de respuesta y mostrar los de feedback
             showAnswerBtn.classList.add('hidden');
             feedbackContainer.classList.remove('hidden');
         }
 
         function marcarRespuesta(esCorrecta) {
             if (!esCorrecta) {
-                // Si es incorrecta, añadirla a la lista de malas
                 preguntasMalas.push(preguntaActual);
                 actualizarVistaMalas();
             }
             
-            // Preparar UI para la siguiente pregunta
             feedbackContainer.classList.add('hidden');
-            newQuestionBtn.classList.remove('hidden');
+            
+            if (preguntasDisponibles.length > 0 || contadorPreguntas < totalPreguntas) {
+                 newQuestionBtn.classList.remove('hidden');
+            } else {
+                 finalizarCuestionario();
+            }
         }
         
         function actualizarVistaMalas() {
-            // Hacer visible el contenedor si hay preguntas malas
-            wrongAnswersContainer.classList.remove('hidden');
-            wrongAnswersList.innerHTML = ''; // Limpiar la lista actual
+            if(preguntasMalas.length > 0) {
+                wrongAnswersContainer.classList.remove('hidden');
+            } else {
+                wrongAnswersContainer.classList.add('hidden');
+            }
+            
+            wrongAnswersList.innerHTML = '';
             
             preguntasMalas.forEach(q => {
                 const listItem = document.createElement('li');
-                // Usamos <details> y <summary> para un acordeón limpio
-                listItem.innerHTML = `
-                    <details>
-                        <summary>${q.pregunta}</summary>
-                        <p>${q.respuesta}</p>
-                    </details>
-                `;
+                listItem.innerHTML = `<details><summary>${q.pregunta}</summary><p>${q.respuesta}</p></details>`;
                 wrongAnswersList.appendChild(listItem);
             });
         }
@@ -575,22 +513,21 @@ let preguntasDisponibles = [];
             answerDisplay.classList.add('hidden');
             progressCounter.classList.add('hidden');
             newQuestionBtn.classList.add('hidden');
+            feedbackContainer.classList.add('hidden');
+            showAnswerBtn.classList.add('hidden');
             
             completionMessage.classList.remove('hidden');
             restartBtn.classList.remove('hidden');
             
-            // Asegurarse de que la lista de malas sea visible si tiene contenido
             if(preguntasMalas.length > 0) {
                 wrongAnswersContainer.classList.remove('hidden');
             }
         }
 
-        // --- Event Listeners ---
         startBtn.addEventListener('click', iniciarCuestionario);
         newQuestionBtn.addEventListener('click', obtenerNuevaPregunta);
         showAnswerBtn.addEventListener('click', mostrarRespuesta);
         restartBtn.addEventListener('click', iniciarCuestionario);
-
     </script>
 </body>
 </html>
